@@ -451,40 +451,6 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
   .cal-grid-week .cal-cell{padding:.45rem}
 }
 
-/* ── STUDY ANALYTICS ──
-   All charts below are plain inline SVG/CSS, generated fresh on every
-   render from existing app data — no chart library, no network request,
-   nothing new written to localStorage. */
-.an-ph-sub{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--t3)}
-.an-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
-.an-stat{background:var(--card);border:1px solid var(--bord);border-radius:var(--r2);padding:.7rem .6rem;text-align:center;display:flex;flex-direction:column;gap:.15rem}
-.an-stat-v{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;line-height:1.1}
-.an-stat-l{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)}
-.an-stat-sub{font-size:.6rem;color:var(--t4)}
-.an-row2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.an-chart-wrap{width:100%}
-.an-chart-wrap svg{width:100%;height:auto;display:block;overflow:visible}
-.an-bar-empty,.an-donut-empty,.an-trend-empty{text-align:center;padding:1.6rem 1rem;color:var(--t4);font-family:'Lora',serif;font-style:italic;font-size:.82rem;line-height:1.7}
-.an-bar-col{cursor:default}
-.an-bar-rect{transition:opacity .15s}
-.an-bar-col:hover .an-bar-rect{opacity:.78}
-.an-axis-lbl{font-family:'Inter',sans-serif;font-size:7.5px;fill:var(--t3)}
-.an-bar-val{font-family:'JetBrains Mono',monospace;font-size:7px;fill:var(--t3)}
-.an-donut-wrap{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
-.an-donut-legend{display:flex;flex-direction:column;gap:.4rem;flex:1;min-width:130px}
-.an-donut-leg-row{display:flex;align-items:center;gap:.4rem;font-size:.66rem;color:var(--t2)}
-.an-donut-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.an-donut-leg-pct{margin-left:auto;font-family:'JetBrains Mono',monospace;color:var(--t3);font-size:.62rem}
-.an-trend-line{fill:none;stroke:var(--sage);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.an-trend-area{fill:var(--sd);stroke:none}
-.an-trend-dot{fill:var(--sage)}
-.an-grid-line{stroke:var(--bord);stroke-width:1}
-@media(max-width:680px){
-  .an-stats{grid-template-columns:repeat(2,1fr)}
-  .an-stat-v{font-size:1.1rem}
-  .an-row2{grid-template-columns:1fr;gap:.9rem}
-}
-
 /* ── WEEK CHART ── */
 .wchart{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;align-items:end;height:55px;margin-top:.65rem}
 .wb-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;height:100%}
@@ -1104,7 +1070,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
           <div class="ph"><span class="ptitle"><svg class="icon" aria-hidden="true"><use href="#i-docs"/></svg> School Docs</span><span id="docCntEl" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--t3)">0 files</span></div>
           <div class="pb">
             <div class="upload-zone" id="uploadZone">
-              <input type="file" id="fileInp" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.png,.jpg,.jpeg,.gif,.webp"/>
+              <input type="file" id="fileInp" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.png,.jpg,.jpeg,.gif,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/markdown,image/*"/>
               <div class="uz-icon"><svg class="icon" aria-hidden="true"><use href="#i-clip"/></svg></div>
               <div class="uz-txt uz-txt-full"><b>Tap or drag</b> worksheets, PDFs, notes, images</div>
               <div class="uz-txt uz-txt-compact" style="display:none"><b>Add files</b></div>
@@ -1145,14 +1111,16 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
           <div class="ph"><span class="ptitle"><svg class="icon" aria-hidden="true"><use href="#i-grades"/></svg> Grade Tracker</span><button class="pact" id="clearGradesBtn">Clear</button></div>
           <div class="pb">
             <div class="grade-add-row">
-              <select class="inp" id="gSubSel" style="flex:2;min-width:110px;font-size:.82rem;padding:.42rem .7rem"></select>
-              <input class="inp" id="gScoreInp" placeholder="Score" type="number" min="0" max="100" style="flex:1;min-width:60px;font-size:.82rem;padding:.42rem .7rem"/>
-              <input class="inp" id="gTotalInp" placeholder="Out of" type="number" min="1" max="200" style="flex:1;min-width:60px;font-size:.82rem;padding:.42rem .7rem"/>
+              <input class="inp" id="gExamInp" placeholder="Exam (e.g. Exam 1)" list="gExamSuggest" style="flex:2;min-width:120px;font-size:.82rem;padding:.42rem .7rem"/>
+              <datalist id="gExamSuggest"></datalist>
+              <select class="inp" id="gSubSel" style="flex:1.4;min-width:100px;font-size:.82rem;padding:.42rem .7rem"></select>
+              <input class="inp" id="gScoreInp" placeholder="Score" type="number" min="0" max="200" style="flex:1;min-width:55px;font-size:.82rem;padding:.42rem .7rem"/>
+              <input class="inp" id="gTotalInp" placeholder="Out of" type="number" min="1" max="200" value="100" style="flex:1;min-width:55px;font-size:.82rem;padding:.42rem .7rem"/>
               <button class="btn" id="addGradeBtn" style="padding:.42rem .85rem;flex-shrink:0">+</button>
             </div>
             <div class="grade-subj-avgs" id="gradeSubjAvgs"></div>
             <div class="grade-list" id="gradeList"></div>
-            <div class="grade-empty" id="gradeEmpty">No grades yet.<br/>Pick a subject above and add a score.</div>
+            <div class="grade-empty" id="gradeEmpty">No grades yet.<br/>Name an exam, pick a subject, and add a score.</div>
             <div class="grade-avg" id="gradeAvg" style="display:none">
               <div><div class="ga-label">Overall Average</div><div style="font-size:.7rem;color:var(--t3);margin-top:2px" id="gradeCount"></div></div>
               <div class="ga-val" id="avgVal"></div>
@@ -1195,48 +1163,6 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
             </div>
             <div class="cal-wd-row" id="calWdRow"></div>
             <div class="cal-grid cal-grid-month" id="calGrid"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STUDY ANALYTICS — a second panel stack on the same Calendar page,
-           directly below the grid. Everything here is DERIVED, read-only
-           data: it reads S.history (completed pomodoro sessions),
-           S.weekData (daily session counts, kept indefinitely — never
-           pruned to 7 days, only *displayed* that way elsewhere), S.todos
-           (category/done/createdAt/due) and S.streak. No new localStorage
-           key is introduced; analytics recomputes on every render from
-           data the rest of the app already persists via persist(). All
-           charts are hand-rolled inline SVG/CSS (no chart library, no
-           CDN) so the page stays fully offline. -->
-      <div class="mob-sec" id="secAnalytics" style="margin-top:1.25rem">
-        <div class="panel">
-          <div class="ph">
-            <span class="ptitle"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg> Study Analytics</span>
-            <div class="ftabs" id="anRangeTabs" role="tablist" aria-label="Analytics time range">
-              <button class="ft on" data-range="14" role="tab" aria-selected="true">14d</button>
-              <button class="ft" data-range="30" role="tab" aria-selected="false">30d</button>
-              <button class="ft" data-range="90" role="tab" aria-selected="false">90d</button>
-            </div>
-          </div>
-          <div class="pb">
-            <div class="an-stats" id="anStats"></div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="ph"><span class="ptitle">Study Hours / Day</span><span class="an-ph-sub" id="anHoursSub"></span></div>
-          <div class="pb"><div class="an-chart-wrap" id="anHoursChart"></div></div>
-        </div>
-
-        <div class="an-row2">
-          <div class="panel">
-            <div class="ph"><span class="ptitle">Category Breakdown</span></div>
-            <div class="pb"><div class="an-chart-wrap an-donut-wrap" id="anDonutChart"></div></div>
-          </div>
-          <div class="panel">
-            <div class="ph"><span class="ptitle">Completion Trend</span></div>
-            <div class="pb"><div class="an-chart-wrap" id="anTrendChart"></div></div>
           </div>
         </div>
       </div>
@@ -1423,8 +1349,9 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
     <div class="fd-body">
       <div class="cat-file-preview">
         <span id="catFileIcon"></span>
-        <span class="cat-file-name" id="catFileName"></span>
       </div>
+      <label class="fd-label" for="catNameInp">Name</label>
+      <input class="fd-input" id="catNameInp" type="text" maxlength="120"/>
       <label class="fd-label" for="catSelInp">Category</label>
       <select class="fd-input" id="catSelInp"></select>
     </div>
@@ -1612,6 +1539,14 @@ const getModes=()=>({
   long:{lbl:'Long Break',secs:S.dur.long*60,cls:'ml'},
   custom:{lbl:'Custom',secs:S.dur.custom*60,cls:'ml'},
 });
+// MIGRATION: grades used to be subject+score+total only, with no exam
+// field. Group any pre-existing entries that lack one under a single
+// "Earlier grades" bucket so they keep showing up grouped, instead of
+// silently vanishing from the by-exam view after this update.
+if(S.grades.some(g=>!g.exam)){
+  S.grades.forEach(g=>{if(!g.exam)g.exam='Earlier grades'});
+  sv('hw_grades',S.grades);
+}
 let MODES=getModes();
 
 // persist() saves all small/critical state. Note: S.docs is intentionally
@@ -1878,215 +1813,6 @@ function calAddSave(){
 $('calAddSaveBtn').onclick=calAddSave;
 $('calAddInp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();calAddSave()}});
 
-// ═══ STUDY ANALYTICS ═══════════════════════════════════════════════
-// Everything here is DERIVED — no new persisted data. Sources:
-//   S.history   – every completed pomodoro/break session {mode,dur,time}
-//                 (capped at 100 entries by onEnd(), most-recent-first)
-//   S.weekData  – {dateToDateString: workSessionCount}, accumulated
-//                 forever (never pruned — rWeek() only ever *displays*
-//                 the last 7 days, the object itself keeps everything)
-//   S.todos     – category, due, done, createdAt, type
-//   S.streak    – current daily streak, already maintained by checkStreak()
-// anRange controls how many days the charts/stats look back over; it's
-// view state only (like calState), declared here — before the router —
-// for the same TDZ-safety reason calState is: the router's bootstrap
-// navigate() call can render synchronously on first load.
-let anRange=14;
-
-const CAT_LABELS={'deep-work':'Deep Work',study:'Study',creative:'Creative',admin:'Admin',personal:'Personal','':'Uncategorized'};
-const CAT_COLORS={'deep-work':'var(--amber)',study:'var(--lav)',creative:'var(--rose)',admin:'var(--blue)',personal:'var(--sage)','':'var(--t4)'};
-
-// Builds a {dateToDateString: minutes} map for the last `days` days by
-// walking S.history. Using history (which has true per-session minutes)
-// rather than weekData (which only has a session *count*) gives an
-// accurate hours figure even if someone changes their focus length —
-// 100 capped entries is plenty for a 14/30/90-day lightweight view.
-function studyMinutesByDay(days){
-  const map={};
-  const cutoff=Date.now()-days*86400000;
-  S.history.forEach(h=>{
-    if(h.mode!=='work'||h.time<cutoff)return;
-    const k=new Date(h.time).toDateString();
-    map[k]=(map[k]||0)+h.dur;
-  });
-  return map;
-}
-function sumRange(map,days){
-  let total=0;const now=new Date();
-  for(let i=0;i<days;i++){const d=new Date(now);d.setDate(d.getDate()-i);total+=map[d.toDateString()]||0}
-  return total;
-}
-function todayMinutes(map){return map[new Date().toDateString()]||0}
-
-// Productivity streak here means consecutive days (including today, or
-// yesterday if today has no sessions yet) with at least one completed
-// work session — distinct from S.streak which is the app's own
-// already-tracked daily streak; shown side-by-side since S.streak is
-// authoritative and this is a cross-check derived purely from history.
-function productivityStreakFromHistory(map){
-  let streak=0;const now=new Date();
-  let cursor=new Date(now);
-  if(!(map[cursor.toDateString()]>0))cursor.setDate(cursor.getDate()-1);
-  while(map[cursor.toDateString()]>0){streak++;cursor.setDate(cursor.getDate()-1)}
-  return streak;
-}
-
-function completionRate(days){
-  const cutoff=Date.now()-days*86400000;
-  const relevant=S.todos.filter(t=>t.createdAt>=cutoff||(t.done&&t.due&&new Date(t.due).getTime()>=cutoff));
-  if(!relevant.length)return null;
-  const done=relevant.filter(t=>t.done).length;
-  return{done,total:relevant.length,pct:Math.round(done/relevant.length*100)};
-}
-
-function rAnalyticsStats(){
-  const map=studyMinutesByDay(Math.max(anRange,30));
-  const dayMin=todayMinutes(map);
-  const weekMin=sumRange(map,7);
-  const monthMin=sumRange(map,30);
-  const workSessions=S.history.filter(h=>h.mode==='work').length;
-  const cr=completionRate(anRange);
-  const pStreak=productivityStreakFromHistory(map);
-  const fmtH=m=>m>=60?`${(m/60).toFixed(1)}h`:`${Math.round(m)}m`;
-  const cards=[
-    [fmtH(dayMin),'Today','var(--amber)'],
-    [fmtH(weekMin),'This Week','var(--sage)'],
-    [fmtH(monthMin),'This Month','var(--lav)'],
-    [workSessions,'Pomodoros (all-time)','var(--terra)'],
-    [cr?`${cr.pct}%`:'—','Completion Rate',cr?'var(--blue)':'var(--t4)'],
-    [`${pStreak}d`,'Study Streak','var(--rose)'],
-  ];
-  $('anStats').innerHTML=cards.map(([v,l,c])=>
-    `<div class="an-stat"><div class="an-stat-v" style="color:${c}">${v}</div><div class="an-stat-l">${l}</div></div>`
-  ).join('');
-}
-
-// ─── Bar chart: study hours per day ───
-function rAnalyticsHours(){
-  const wrap=$('anHoursChart');
-  const map=studyMinutesByDay(anRange);
-  const totalMin=sumRange(map,anRange);
-  $('anHoursSub').textContent=`${(totalMin/60).toFixed(1)}h over ${anRange}d`;
-  const days=[];
-  const now=new Date();
-  for(let i=anRange-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push({d,min:map[d.toDateString()]||0})}
-  if(!totalMin){wrap.innerHTML='<div class="an-bar-empty">No study sessions logged yet.<br/>Complete a Pomodoro to see hours here.</div>';return}
-
-  const W=560,H=160,padL=4,padR=4,padT=12,padB=20;
-  const plotW=W-padL-padR,plotH=H-padT-padB;
-  const mx=Math.max(...days.map(x=>x.min),1);
-  const bw=plotW/days.length;
-  const showEvery=days.length>30?7:days.length>14?2:1;
-  let bars='';
-  days.forEach((x,i)=>{
-    const h=mx?Math.max((x.min/mx)*plotH,x.min>0?3:0):0;
-    const bx=padL+i*bw,by=padT+plotH-h;
-    const isToday=isSameDay(x.d,now);
-    bars+=`<g class="an-bar-col">
-      <rect class="an-bar-rect" x="${bx+bw*0.12}" y="${by}" width="${bw*0.76}" height="${h}" rx="2" fill="${isToday?'var(--amber)':'var(--ld)'}"/>
-      ${i%showEvery===0?`<text class="an-axis-lbl" x="${bx+bw/2}" y="${H-4}" text-anchor="middle">${x.d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'})}</text>`:''}
-    </g>`;
-  });
-  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Study hours per day, last ${anRange} days">
-    <line class="an-grid-line" x1="${padL}" y1="${padT+plotH}" x2="${W-padR}" y2="${padT+plotH}"/>
-    ${bars}
-  </svg>`;
-}
-
-// ─── Donut chart: category breakdown ───
-// Breaks down tasks by their `category` field (Heartworth's existing
-// per-task tag — Deep Work/Study/Creative/Admin/Personal) within the
-// selected range, by count of tasks created/due in that window.
-function rAnalyticsDonut(){
-  const wrap=$('anDonutChart');
-  const cutoff=Date.now()-anRange*86400000;
-  const relevant=S.todos.filter(t=>t.createdAt>=cutoff);
-  if(!relevant.length){wrap.innerHTML='<div class="an-donut-empty">No tasks in this range yet.</div>';return}
-  const counts={};
-  relevant.forEach(t=>{const k=t.category||'';counts[k]=(counts[k]||0)+1});
-  const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const total=relevant.length;
-
-  const R=46,CX=60,CY=60,STROKE=18;
-  const circ=2*Math.PI*R;
-  let offset=0,segs='';
-  entries.forEach(([cat,n])=>{
-    const frac=n/total,len=frac*circ;
-    segs+=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${CAT_COLORS[cat]}" stroke-width="${STROKE}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${CX} ${CY})"/>`;
-    offset+=len;
-  });
-  const legend=entries.map(([cat,n])=>
-    `<div class="an-donut-leg-row"><span class="an-donut-leg-dot" style="background:${CAT_COLORS[cat]}"></span>${esc(CAT_LABELS[cat]||cat)}<span class="an-donut-leg-pct">${Math.round(n/total*100)}%</span></div>`
-  ).join('');
-  wrap.innerHTML=`<svg viewBox="0 0 120 120" width="140" height="140" role="img" aria-label="Task category breakdown">
-      ${segs}
-      <text x="${CX}" y="${CY-3}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--t1)" font-weight="600">${total}</text>
-      <text x="${CX}" y="${CY+11}" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="var(--t3)" letter-spacing="1">TASKS</text>
-    </svg>
-    <div class="an-donut-legend">${legend}</div>`;
-}
-
-// ─── Line chart: task completion trend ───
-// For each day in range, % of that day's "active" tasks (created on or
-// before that day, not yet deleted) that were done BY that day — a
-// cumulative-completion read on how the backlog has trended, not just
-// a snapshot of today's number.
-function rAnalyticsTrend(){
-  const wrap=$('anTrendChart');
-  if(!S.todos.length){wrap.innerHTML='<div class="an-trend-empty">Add some tasks to see a trend.</div>';return}
-  const now=new Date();
-  const points=[];
-  for(let i=anRange-1;i>=0;i--){
-    const d=new Date(now);d.setDate(d.getDate()-i);d.setHours(23,59,59,999);
-    const existedByThen=S.todos.filter(t=>t.createdAt<=d.getTime());
-    if(!existedByThen.length){points.push(null);continue}
-    const doneByThen=existedByThen.filter(t=>t.done).length;
-    points.push(Math.round(doneByThen/existedByThen.length*100));
-  }
-  const valid=points.filter(p=>p!==null);
-  if(!valid.length){wrap.innerHTML='<div class="an-trend-empty">Not enough history yet.</div>';return}
-
-  const W=300,H=160,padL=24,padR=8,padT=14,padB=20;
-  const plotW=W-padL-padR,plotH=H-padT-padB;
-  const n=points.length;
-  const xAt=i=>padL+(n<=1?0:(i/(n-1))*plotW);
-  const yAt=v=>padT+plotH-(v/100)*plotH;
-  let lastVal=valid[valid.length-1];
-  let pathD='',areaD='',dots='';
-  let started=false;
-  points.forEach((v,i)=>{
-    if(v===null)return;
-    const x=xAt(i),y=yAt(v);
-    pathD+=started?` L ${x} ${y}`:`M ${x} ${y}`;
-    started=true;
-  });
-  // close the area back down to the baseline for a filled look
-  const firstIdx=points.findIndex(p=>p!==null);
-  if(firstIdx>-1)areaD=`${pathD} L ${xAt(n-1)} ${padT+plotH} L ${xAt(firstIdx)} ${padT+plotH} Z`;
-  points.forEach((v,i)=>{if(v!==null&&(i===n-1||i===firstIdx))dots+=`<circle class="an-trend-dot" cx="${xAt(i)}" cy="${yAt(v)}" r="2.6"/>`});
-
-  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Task completion trend over ${anRange} days, currently ${lastVal} percent">
-    <line class="an-grid-line" x1="${padL}" y1="${padT}" x2="${W-padR}" y2="${padT}"/>
-    <line class="an-grid-line" x1="${padL}" y1="${padT+plotH/2}" x2="${W-padR}" y2="${padT+plotH/2}"/>
-    <line class="an-grid-line" x1="${padL}" y1="${padT+plotH}" x2="${W-padR}" y2="${padT+plotH}"/>
-    <text class="an-axis-lbl" x="${padL-4}" y="${padT+3}" text-anchor="end">100%</text>
-    <text class="an-axis-lbl" x="${padL-4}" y="${padT+plotH+3}" text-anchor="end">0%</text>
-    <path class="an-trend-area" d="${areaD}"/>
-    <path class="an-trend-line" d="${pathD}"/>
-    ${dots}
-  </svg>`;
-}
-
-function rAnalytics(){
-  rAnalyticsStats();
-  rAnalyticsHours();
-  rAnalyticsDonut();
-  rAnalyticsTrend();
-}
-document.querySelectorAll('#anRangeTabs .ft').forEach(b=>b.addEventListener('click',()=>{
-  setOn('#anRangeTabs .ft',b);anRange=parseInt(b.dataset.range,10);rAnalytics();
-}));
-
 // ═══ ROUTER ═══
 // One router drives navigation everywhere: the desktop top nav (.pn-link),
 // the mobile bottom nav (.mn-btn), AND the browser's own back/forward
@@ -2143,11 +1869,9 @@ function renderRoute(route){
   // Calendar's grid depends on S.todos, which can change on any other
   // page (Tasks) while Calendar isn't mounted — rebuild fresh every time
   // it becomes the active route rather than trying to keep it live in
-  // the background. Analytics lives on the same page and is rebuilt
-  // for the same reason.
+  // the background.
   if(route==='calendar'){
     if(typeof rCalendar==='function')rCalendar();
-    if(typeof rAnalytics==='function')rAnalytics();
   }
 
   // mini timer widget should never show on the Timer page itself
@@ -2421,14 +2145,40 @@ function getFiltered(){
   else if(S.sort==='due')l.sort((a,b)=>{if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return-1;return new Date(a.due)-new Date(b.due)});
   return l;
 }
+// docExt/docIcon/docTypeCategory all originally worked from the
+// filename's extension alone. That breaks for files that arrive with
+// no recognizable extension — most commonly an image shared from
+// another app (WhatsApp, etc.), where Android/iOS hands the browser a
+// generated cache filename like "236c036e...068882f6.jpg" that LOOKS
+// like it has an extension but can also arrive with none at all
+// depending on the share flow. Each function now accepts an optional
+// mimeType second argument — when the name's extension isn't
+// recognized, we fall back to inspecting the MIME type (which the
+// File object always carries reliably, regardless of what the OS
+// named the file) before giving up to a generic icon/category.
 function docExt(n){return(n.split('.').pop()||'').toLowerCase()}
-function docIcon(n){return DOC_ICONS[docExt(n)]||'file-generic'}
+const MIME_TO_EXT={'application/pdf':'pdf','application/msword':'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document':'docx','application/vnd.ms-powerpoint':'ppt','application/vnd.openxmlformats-officedocument.presentationml.presentation':'pptx','application/vnd.ms-excel':'xls','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':'xlsx','text/plain':'txt','text/markdown':'md','image/png':'png','image/jpeg':'jpg','image/gif':'gif','image/webp':'webp'};
+function effectiveExt(n,mimeType){
+  const fromName=docExt(n);
+  if(DOC_ICONS[fromName])return fromName;
+  if(mimeType){
+    if(MIME_TO_EXT[mimeType])return MIME_TO_EXT[mimeType];
+    if(mimeType.startsWith('image/'))return'png'; // any unlisted image/* still renders as an image
+  }
+  return fromName; // last resort: whatever the name suggests, even if unrecognized
+}
+function docIcon(n,mimeType){return DOC_ICONS[effectiveExt(n,mimeType)]||(mimeType&&mimeType.startsWith('image/')?'file-image':'file-generic')}
 // Maps a file extension to the broader category used by the Docs page's
 // type-filter tabs (All/PDF/Word/Sheet/Image/Text). Kept separate from
 // DOC_ICONS since icons are per-extension but filtering only needs the
 // coarser grouping.
 const DOC_TYPE_CATS={pdf:'pdf',doc:'doc',docx:'doc',ppt:'doc',pptx:'doc',xls:'sheet',xlsx:'sheet',txt:'text',md:'text',png:'image',jpg:'image',jpeg:'image',gif:'image',webp:'image'};
-function docTypeCategory(n){return DOC_TYPE_CATS[docExt(n)]||'text'}
+function docTypeCategory(n,mimeType){
+  const ext=effectiveExt(n,mimeType);
+  if(DOC_TYPE_CATS[ext])return DOC_TYPE_CATS[ext];
+  if(mimeType&&mimeType.startsWith('image/'))return'image';
+  return'text'; // truly unrecognized files still need SOME tab to live in
+}
 // Subject tags are a subset of a file's tags — distinct from
 // non-subject tags. Excludes 'General' since that's docSubject()'s own
 // fallback for files with no recognized subject tag, not a tag a file
@@ -2569,41 +2319,53 @@ function rHistory(){
 $('clearHistBtn').onclick=()=>{S.history=[];persist();rHistory();toast('History cleared','trash')};
 
 // ═══ GRADES ═══
-// Fixed subject list — matches Docs' SUBJECT_TAGS so "subject" means the
-// same thing across the whole app. Grades still supports multiple
-// entries per subject (e.g. several tests in Physics this term); the
-// fix here is just that you pick the subject from this list instead of
-// re-typing it by hand every time.
-// Grades uses the same canonical subject list as Docs (APP_SUBJECTS).
-const GRADE_SUBJECTS=APP_SUBJECTS;
-// Single source of truth for the subject/category list — populates both
-// the Grades subject dropdown and the upload category-picker dropdown,
-// so the two can never silently drift apart by editing one and
-// forgetting the other.
+// Grades now track three things per entry: which exam (free text, e.g.
+// "Exam 1", "Midterm", "Unit Test 2"), which subject, and the score —
+// a small report-card model rather than one flat list of subject+score.
+// Subjects get their OWN list here (Phy/Chem/Math by default) rather
+// than reusing Docs' APP_SUBJECTS — the two serve different purposes
+// (file categorization vs. exam subjects) and don't need to match.
+const GRADE_SUBJECTS=['Physics','Chemistry','Maths'];
 function populateSubjectSelects(){
-  const optsHtml=GRADE_SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
-  const gSel=$('gSubSel');if(gSel)gSel.innerHTML=optsHtml;
-  const cSel=$('catSelInp');if(cSel)cSel.innerHTML=optsHtml;
+  // Grades' own subject dropdown.
+  const gSel=$('gSubSel');
+  if(gSel)gSel.innerHTML=GRADE_SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  // Docs' upload category picker keeps using the broader APP_SUBJECTS
+  // list (Physics/Chemistry/Maths/Computer Science/English/General) —
+  // unrelated to the Grades redesign, so left untouched here.
+  const cSel=$('catSelInp');
+  if(cSel)cSel.innerHTML=APP_SUBJECTS.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
 }
 populateSubjectSelects();
+// Autocomplete suggestions for the exam-name field — every exam name
+// already used, most-recent-first, deduplicated. Lets "Exam 2" appear
+// as a suggestion after typing "Exam 1" once, without forcing a fixed
+// list of exam names (some terms have differently-named tests).
+function refreshExamSuggestions(){
+  const dl=$('gExamSuggest');if(!dl)return;
+  const seen=new Set();const names=[];
+  for(let i=S.grades.length-1;i>=0;i--){const n=S.grades[i].exam;if(n&&!seen.has(n)){seen.add(n);names.push(n)}}
+  dl.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join('');
+}
 function gradeColor(pct){if(pct>=90)return'var(--sage)';if(pct>=75)return'var(--amber)';if(pct>=60)return'var(--terra)';return'var(--rose)'}
 function gradeLetter(pct){if(pct>=93)return'A';if(pct>=90)return'A-';if(pct>=87)return'B+';if(pct>=83)return'B';if(pct>=80)return'B-';if(pct>=77)return'C+';if(pct>=73)return'C';if(pct>=70)return'C-';if(pct>=60)return'D';return'F'}
 function addGrade(){
-  const sub=$('gSubSel').value,score=parseFloat($('gScoreInp').value),total=parseFloat($('gTotalInp').value);
-  if(!sub||isNaN(score)||isNaN(total)||total<=0)return;
-  S.grades.push({id:Date.now(),subject:sub,score,total,addedAt:Date.now()});
-  $('gScoreInp').value='';$('gTotalInp').value='';
-  rGrades();persist();toast(`${sub} grade added`,'grades');
+  const exam=$('gExamInp').value.trim(),sub=$('gSubSel').value,score=parseFloat($('gScoreInp').value),total=parseFloat($('gTotalInp').value);
+  if(!exam||!sub||isNaN(score)||isNaN(total)||total<=0)return;
+  S.grades.push({id:Date.now(),exam,subject:sub,score,total,addedAt:Date.now()});
+  $('gScoreInp').value='';$('gTotalInp').value='100';
+  rGrades();persist();toast(`${exam} · ${sub} added`,'grades');
   $('gScoreInp').focus();
 }
 $('addGradeBtn').onclick=addGrade;
+$('gExamInp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('gSubSel').focus()}});
 $('gScoreInp').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade()});
+$('gTotalInp').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade()});
 $('clearGradesBtn').onclick=()=>{if(confirm('Clear all grades?')){S.grades=[];persist();rGrades()}};
 // Renders one small average card per subject that actually has at least
 // one grade — hidden subjects with no entries yet don't clutter the
-// view. Each card shows that subject's own average % and letter, so a
-// student can see "how am I doing in Physics" at a glance instead of
-// only an overall blended number.
+// view. Each card shows that subject's own average % across ALL exams,
+// so "how am I doing in Physics overall" is visible at a glance.
 function rGradeSubjAvgs(){
   const wrap=$('gradeSubjAvgs');
   wrap.innerHTML='';
@@ -2618,24 +2380,36 @@ function rGradeSubjAvgs(){
     wrap.appendChild(card);
   });
 }
+// Groups entries by exam (most-recently-added exam first), each exam
+// showing its subjects as rows underneath — reads like a report card
+// (Exam 2: Physics 88%, Chemistry 91%, Maths 76%) instead of one flat
+// list where the exam context was missing entirely before.
 function rGrades(){
   const list=$('gradeList');list.innerHTML='';
   $('gradeEmpty').style.display=S.grades.length?'none':'block';
   $('gradeAvg').style.display=S.grades.length?'flex':'none';
   rGradeSubjAvgs();
-  S.grades.forEach((g,gi)=>{
-    const pct=Math.round(g.score/g.total*100);
-    const col=gradeColor(pct);const ltr=gradeLetter(pct);
-    const bgCol=GRADE_COLORS[gi%GRADE_COLORS.length];
-    const el=document.createElement('div');el.className='gi';
-    el.innerHTML=`<div class="gi-icon" style="background:${bgCol}22;border:2px solid ${bgCol}44;color:${col}">${ltr}</div>
-    <div class="gi-info"><div class="gi-sub">${esc(g.subject)}</div><div class="gi-det">${g.score} / ${g.total} · ${pct}%
-      <div style="margin-top:3px;height:4px;background:var(--bord);border-radius:2px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${col};border-radius:2px;transition:width .5s"></div></div>
-    </div></div>
-    <div class="gi-gpa" style="color:${col}">${pct}%</div>`;
-    const del=document.createElement('button');del.className='ib del';del.innerHTML=ic('close');del.style.marginLeft='.2rem';
-    del.onclick=()=>{S.grades.splice(gi,1);persist();rGrades()};
-    el.appendChild(del);list.appendChild(el);
+  refreshExamSuggestions();
+  const examOrder=[];const seen=new Set();
+  S.grades.forEach(g=>{if(!seen.has(g.exam)){seen.add(g.exam);examOrder.push(g.exam)}});
+  examOrder.slice().reverse().forEach(examName=>{
+    const hdr=document.createElement('div');hdr.className='doc-subject-hdr';hdr.textContent=examName;
+    list.appendChild(hdr);
+    S.grades.filter(g=>g.exam===examName).forEach(g=>{
+      const gi=S.grades.indexOf(g);
+      const pct=Math.round(g.score/g.total*100);
+      const col=gradeColor(pct);const ltr=gradeLetter(pct);
+      const bgCol=GRADE_COLORS[gi%GRADE_COLORS.length];
+      const el=document.createElement('div');el.className='gi';
+      el.innerHTML=`<div class="gi-icon" style="background:${bgCol}22;border:2px solid ${bgCol}44;color:${col}">${ltr}</div>
+      <div class="gi-info"><div class="gi-sub">${esc(g.subject)}</div><div class="gi-det">${g.score} / ${g.total} · ${pct}%
+        <div style="margin-top:3px;height:4px;background:var(--bord);border-radius:2px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${col};border-radius:2px;transition:width .5s"></div></div>
+      </div></div>
+      <div class="gi-gpa" style="color:${col}">${pct}%</div>`;
+      const del=document.createElement('button');del.className='ib del';del.innerHTML=ic('close');del.style.marginLeft='.2rem';
+      del.onclick=()=>{S.grades.splice(gi,1);persist();rGrades()};
+      el.appendChild(del);list.appendChild(el);
+    });
   });
   if(S.grades.length){
     const avg=S.grades.reduce((a,g)=>a+g.score/g.total*100,0)/S.grades.length;
@@ -2671,7 +2445,27 @@ function handleFiles(files){
     try{r.readAsDataURL(file)}catch(err){console.warn('readAsDataURL threw',file.name,err);failed++;settled++;maybeFinish()}
   });
 }
-// ═══ UPLOAD CATEGORY PICKER ═══
+// Detects filenames that are really just generated cache/share-sheet
+// identifiers rather than anything a person typed — e.g. the all-hex
+// "236c036e068882f6b285b3136c3f5399.jpg" Android hands the browser
+// when a file arrives via another app's share action (WhatsApp, etc.)
+// instead of a direct file-browser pick. A name made of a long run of
+// hex-looking characters with no spaces/words is the signature; a real
+// filename a person saved ("vacation photo.jpg", "IMG_2031.jpg",
+// "Screenshot_2026...") doesn't match this pattern even though some
+// (IMG_2031) are also auto-generated, since those are at least
+// recognizable/sortable by date rather than opaque.
+function looksLikeGeneratedName(name){
+  const stem=name.replace(/\.[^.]+$/,'');
+  return/^[0-9a-f]{16,}$/i.test(stem);
+}
+function suggestFriendlyName(file,index){
+  const m=file.name.match(/\.([^.]+)$/);
+  const ext=m?m[1]:'';
+  const kind=file.type&&file.type.startsWith('image/')?'Image':docTypeCategory(file.name,file.type)==='pdf'?'Document':'File';
+  const stamp=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return`${kind} ${stamp}${index?` (${index+1})`:''}${ext?'.'+ext:''}`;
+}
 // Replaces the old autoTag()-based automatic subject detection — every
 // uploaded file now gets its category explicitly chosen by the user via
 // this modal, one file at a time (in order) if multiple were selected.
@@ -2690,8 +2484,13 @@ function showCategoryStep(){
   }
   const file=catQueue[catIndex];
   $('catProgress').textContent=catQueue.length>1?`${catIndex+1} of ${catQueue.length}`:'';
-  $('catFileIcon').innerHTML=ic(docIcon(file.name));
-  $('catFileName').textContent=file.name;
+  $('catFileIcon').innerHTML=ic(docIcon(file.name,file.type));
+  // If the OS handed us a meaningless generated name (common when a
+  // file arrives via another app's share sheet rather than a direct
+  // file-browser pick — see looksLikeGeneratedName()), pre-fill a
+  // readable suggestion instead of the raw hash string, but leave it
+  // fully editable either way.
+  $('catNameInp').value=looksLikeGeneratedName(file.name)?suggestFriendlyName(file,catIndex):file.name;
   $('catSelInp').value='General';
   $('catOverlay').classList.add('open');
   $('catPop').classList.add('open');
@@ -2717,7 +2516,8 @@ function closeCategoryPicker(){
 function commitCurrentFile(category){
   const file=catQueue[catIndex];
   if(category){
-    S.docs.unshift({id:Date.now()+Math.random()+catIndex,name:file.name,size:file.size,type:file.type,dataUrl:file.dataUrl,tags:[category],uploadedAt:Date.now()});
+    const finalName=$('catNameInp').value.trim()||file.name;
+    S.docs.unshift({id:Date.now()+Math.random()+catIndex,name:finalName,size:file.size,type:file.type,dataUrl:file.dataUrl,tags:[category],uploadedAt:Date.now()});
     catAddedCount++;
   }
   catIndex++;
@@ -2743,12 +2543,12 @@ function tagChipHtml(tag){
 function getFilteredDocs(q){
   let l=[...S.docs];
   if(q)l=l.filter(d=>d.name.toLowerCase().includes(q)||(d.tags||[]).some(t=>t.toLowerCase().includes(q)));
-  if(S.docFilter!=='all')l=l.filter(d=>docTypeCategory(d.name)===S.docFilter);
+  if(S.docFilter!=='all')l=l.filter(d=>docTypeCategory(d.name,d.type)===S.docFilter);
   if(S.docTag)l=l.filter(d=>(d.tags||[]).includes(S.docTag));
   switch(S.docSort){
     case'name':l.sort((a,b)=>a.name.localeCompare(b.name));break;
     case'size':l.sort((a,b)=>b.size-a.size);break;
-    case'type':l.sort((a,b)=>docTypeCategory(a.name).localeCompare(docTypeCategory(b.name))||a.name.localeCompare(b.name));break;
+    case'type':l.sort((a,b)=>docTypeCategory(a.name,a.type).localeCompare(docTypeCategory(b.name,b.type))||a.name.localeCompare(b.name));break;
     case'subject':l.sort((a,b)=>{
       const sa=docSubject(a),sb=docSubject(b);
       if(sa==='General'&&sb!=='General')return 1; // General (catch-all) always last
@@ -2809,7 +2609,7 @@ function rDocs(q=''){
     }
     const el=document.createElement('div');el.className=`doc-item${linkedIds.has(doc.id)?' linked-to-task':''}`;
     el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('aria-label',`Open file: ${doc.name}`);
-    const icon=document.createElement('div');icon.className='dicon';icon.innerHTML=ic(docIcon(doc.name));
+    const icon=document.createElement('div');icon.className='dicon';icon.innerHTML=ic(docIcon(doc.name,doc.type));
     const info=document.createElement('div');info.className='dinfo';
     const nm=document.createElement('div');nm.className='dname';nm.textContent=doc.name;
     const meta=document.createElement('div');meta.className='dmeta';
@@ -2978,7 +2778,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('fdPop').classLis
 // ═══ DOC PREVIEW ═══
 function openDocPreview(id){
   const doc=S.docs.find(d=>d.id===id);if(!doc)return;
-  $('pvIcon').innerHTML=ic(docIcon(doc.name));$('pvName').textContent=doc.name;
+  $('pvIcon').innerHTML=ic(docIcon(doc.name,doc.type));$('pvName').textContent=doc.name;
   const ext=docExt(doc.name),isImg=['png','jpg','jpeg','gif','webp'].includes(ext),isText=['txt','md'].includes(ext);
   const body=$('pvBody');body.innerHTML='';body.style.background='';body.style.color='';
   $('darkRBtn').classList.remove('on');$('darkRBtn').setAttribute('aria-pressed','false');
@@ -3093,7 +2893,7 @@ function rDrawerFiles(todo){
     const doc=S.docs.find(d=>d.id===fid);if(!doc)return;
     const row=document.createElement('div');row.className='dr-file-row';
     row.setAttribute('role','button');row.setAttribute('tabindex','0');row.setAttribute('aria-label',`Open file: ${doc.name}`);
-    const icon=document.createElement('span');icon.className='dr-file-icon';icon.innerHTML=ic(docIcon(doc.name));
+    const icon=document.createElement('span');icon.className='dr-file-icon';icon.innerHTML=ic(docIcon(doc.name,doc.type));
     const name=document.createElement('span');name.className='dr-file-name';name.textContent=doc.name;
     const ul=document.createElement('button');ul.className='dr-file-unlink';ul.title='Unlink';ul.setAttribute('aria-label',`Unlink file: ${doc.name}`);ul.innerHTML=ic('close');
     ul.onclick=e=>{e.stopPropagation();todo.fileIds.splice(fi,1);persist();rDrawerFiles(todo);rTasks();renderFilePicker(todo)};
@@ -3109,7 +2909,7 @@ function renderFilePicker(todo){
     const sel=(todo.fileIds||[]).includes(doc.id);
     const item=document.createElement('div');item.className=`fp-item${sel?' sel':''}`;
     item.setAttribute('role','checkbox');item.setAttribute('aria-checked',sel?'true':'false');item.setAttribute('tabindex','0');item.setAttribute('aria-label',`${sel?'Remove':'Attach'} file: ${doc.name}`);
-    item.innerHTML=`<span class="fp-icon">${ic(docIcon(doc.name))}</span><span class="fp-name">${esc(doc.name)}</span>${sel?`<span class="fp-check">${ic('check')}</span>`:''}`;
+    item.innerHTML=`<span class="fp-icon">${ic(docIcon(doc.name,doc.type))}</span><span class="fp-name">${esc(doc.name)}</span>${sel?`<span class="fp-check">${ic('check')}</span>`:''}`;
     function toggleFile(){
       if(!todo.fileIds)todo.fileIds=[];
       if(sel){todo.fileIds=todo.fileIds.filter(id=>id!==doc.id)}
@@ -3202,7 +3002,7 @@ else if(!hasSeeded){
     {id:S.nextId++,text:'Write English essay intro',done:false,category:'study',priority:'medium',due:'',type:'assignment',pomos:0,subtasks:[],notes:'',fileIds:[],createdAt:Date.now()-1000},
     {id:S.nextId++,text:'Review biology flashcards',done:true,category:'study',priority:'low',due:'',type:'task',pomos:3,subtasks:[],notes:'',fileIds:[],createdAt:Date.now()-2000},
   ];
-  S.grades=[{id:1,subject:'Mathematics',score:87,total:100,addedAt:Date.now()},{id:2,subject:'English',score:91,total:100,addedAt:Date.now()-1000},{id:3,subject:'Physics',score:73,total:100,addedAt:Date.now()-2000}];
+  S.grades=[{id:1,exam:'Exam 1',subject:'Maths',score:87,total:100,addedAt:Date.now()},{id:2,exam:'Exam 1',subject:'Physics',score:73,total:100,addedAt:Date.now()-1000},{id:3,exam:'Exam 1',subject:'Chemistry',score:80,total:100,addedAt:Date.now()-2000}];
   S.history=[{mode:'work',dur:25,task:'Review biology flashcards',time:Date.now()-3600000},{mode:'short',dur:5,task:'',time:Date.now()-3360000}];
   sv('hw_seeded',true);
 }
