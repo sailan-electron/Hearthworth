@@ -164,16 +164,25 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
 .cat-file-preview svg{width:20px;height:20px;flex-shrink:0;color:var(--t2)}
 .cat-file-name{font-size:.8rem;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 @media(max-width:680px){
-  .fd-pop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh}
-  #calAddPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh}
+  /* Anchor at the bottom with a max-height computed as a true viewport
+     fraction (calc, not a bare 80vh) — this keeps short popups compact
+     (no dead empty space) while still giving a hard ceiling so a TALL
+     popup's own top edge can never float past the top of the screen.
+     The earlier "cut off at the top" bug came from pairing bottom:1rem
+     with top:auto and a content-driven height — nothing stopped the box
+     from growing upward past y=0 if content was long. calc(100vh - 2rem)
+     leaves 1rem clearance top and bottom, matching the 1rem bottom gap. */
+  .fd-pop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:calc(100vh - 2rem)!important}
+  #calAddPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:calc(100vh - 2rem)!important}
   /* catPop is centered via inline left:50%/top:50%/transform:translate(-50%,-50%)
-     in JS (see showCategoryStep()) — that inline transform survives even
-     though left/top/bottom get overridden above, since transform has no
-     !important rule here, leaving the box pinned to the bottom sheet
-     position AND shifted up-left by half its own size at the same time.
-     Forcing the transform back to none on mobile uses the same bottom-
-     sheet position as the other popovers, with no fighting offset. */
-  #catPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh;transform:none!important}
+     in JS (see showCategoryStep()) on desktop only — the JS now skips
+     that entirely on mobile (window.innerWidth check), so only this
+     bottom-anchored rule applies here. max-height is a real viewport
+     calc (not a bare 80vh) so the box can never grow tall enough for
+     its own top edge to float past y=0 off-screen — that was the cause
+     of the previous "cut off at the top" bug. Content longer than the
+     available space scrolls inside .fd-body (overflow-y:auto) instead. */
+  #catPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:calc(100vh - 2rem)!important;transform:none!important}
   #catPop.open{transform:none!important}
 }
 .chat-empty{margin:auto;text-align:center;color:var(--t3);font-size:.8rem;padding:1rem}
