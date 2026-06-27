@@ -166,6 +166,15 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
 @media(max-width:680px){
   .fd-pop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh}
   #calAddPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh}
+  /* catPop is centered via inline left:50%/top:50%/transform:translate(-50%,-50%)
+     in JS (see showCategoryStep()) — that inline transform survives even
+     though left/top/bottom get overridden above, since transform has no
+     !important rule here, leaving the box pinned to the bottom sheet
+     position AND shifted up-left by half its own size at the same time.
+     Forcing the transform back to none on mobile uses the same bottom-
+     sheet position as the other popovers, with no fighting offset. */
+  #catPop{left:.8rem!important;right:.8rem!important;width:auto;bottom:1rem!important;top:auto!important;max-height:80vh;transform:none!important}
+  #catPop.open{transform:none!important}
 }
 .chat-empty{margin:auto;text-align:center;color:var(--t3);font-size:.8rem;padding:1rem}
 .chat-typing{align-self:flex-start;display:flex;gap:4px;padding:.6rem .8rem;background:var(--card);border:1px solid var(--bord);border-radius:var(--r2)}
@@ -2677,10 +2686,18 @@ function showCategoryStep(){
   $('catSelInp').value='General';
   $('catOverlay').classList.add('open');
   $('catPop').classList.add('open');
-  // Centered fixed modal — no anchor element needed, unlike the
-  // file-details popover which opens next to the row you clicked.
-  $('catPop').style.left='50%';$('catPop').style.top='50%';
-  $('catPop').style.transform='translate(-50%,-50%)';
+  // Centered fixed modal on desktop — no anchor element needed, unlike
+  // the file-details popover which opens next to the row you clicked.
+  // On mobile this is skipped entirely: the #catPop media-query rule
+  // pins it as a bottom sheet instead, and setting a centering
+  // left/top/transform here would only fight that positioning (this
+  // was the actual cause of the cut-off/overlapping mobile layout).
+  if(window.innerWidth>680){
+    $('catPop').style.left='50%';$('catPop').style.top='50%';
+    $('catPop').style.transform='translate(-50%,-50%)';
+  }else{
+    $('catPop').style.left='';$('catPop').style.top='';$('catPop').style.transform='';
+  }
 }
 function closeCategoryPicker(){
   $('catOverlay').classList.remove('open');
