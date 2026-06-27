@@ -7,8 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <!-- ═══ SUPABASE CONFIG ═══ PASTE YOUR VALUES BELOW, then save. ═══ -->
 <script>
-  const SUPABASE_URL='https://yzifpolhicurgimyxpkk.supabase.co';
-  const SUPABASE_ANON_KEY='sb_publishable_8aNe4EBxkQ5d0YQkLVipGQ_IydK66OB';
+  const SUPABASE_URL='PASTE_YOUR_PROJECT_URL_HERE';
+  const SUPABASE_ANON_KEY='PASTE_YOUR_ANON_KEY_HERE';
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -207,13 +207,17 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
 
 
 /* ── TOPBAR ── */
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bord)}
-.logo{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:var(--amber)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bord)}
+.logo{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:var(--amber);white-space:nowrap}
 .logo em{font-style:normal;color:var(--t3);font-size:.65rem;display:block;letter-spacing:.14em;text-transform:uppercase;margin-top:-3px}
-.topbar-r{display:flex;align-items:center;gap:.5rem}
+.topbar-l{display:flex;align-items:center;min-width:0;flex:1}
+.topbar-logo{flex-shrink:0}
+.topbar-r{display:flex;align-items:center;gap:.5rem;min-width:0;flex:1;justify-content:flex-end}
 .clock{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t3)}
-.pill{display:flex;align-items:center;gap:4px;background:var(--ad);border:1px solid var(--bw);border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:600;color:var(--amber);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.pill{display:flex;align-items:center;gap:4px;background:var(--ad);border:1px solid var(--bw);border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:600;color:var(--amber);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap;min-width:0;flex-shrink:0}
 .pill:hover{background:var(--ag)}
+.pill-acct{overflow:hidden}
+.acct-email-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .icon-btn-round{width:32px;height:32px;border-radius:50%;border:1px solid var(--bord);background:var(--card);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;-webkit-tap-highlight-color:transparent;flex-shrink:0}
 .icon-btn-round:hover{border-color:var(--amber);background:var(--ad);color:var(--amber)}
 /* Base sizing for the custom line-icon sprite (see <defs> near top of
@@ -676,10 +680,27 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
   .mn-tabs{width:100%;display:flex}
   .mn-btn{flex:1;min-width:0}
   #app{padding:.8rem .8rem calc(80px + env(safe-area-inset-bottom,0px))}
-  /* topbar */
+  /* topbar — on a ~360-390px phone, the desktop topbar's 3 blocks
+     (account pill, full logo+tagline, streak pill + 2 icon buttons)
+     don't fit on one line with real content in them. Strip each
+     down to its essential, recognizable part instead of letting
+     them overflow/collide: */
   .clock,.kbd-btn-hide{display:none}
-  .topbar{margin-bottom:.8rem;padding-bottom:.8rem}
-  .topbar-r{gap:.38rem}
+  .topbar{margin-bottom:.8rem;padding-bottom:.8rem;gap:.35rem}
+  .topbar-r{gap:.32rem}
+  .topbar-l{flex:0 1 auto}
+  /* logo: drop the tagline, shrink the wordmark so the row has room
+     for the account + streak pills on either side */
+  .topbar-logo{flex:0 1 auto;min-width:0;overflow:hidden}
+  .logo{font-size:1rem}
+  .logo em{display:none}
+  /* account pill: the email text is the part that doesn't scale —
+     hide it and keep just the recognizable icon, same footprint as
+     the other icon-buttons in the row */
+  .pill-acct{padding:6px;border-radius:50%}
+  .acct-email-txt{display:none}
+  /* streak pill stays as-is (already short: icon + number + "d") */
+  .pill{padding:3px 8px;font-size:.66rem}
   /* primary desktop nav is replaced by the bottom mob-nav on mobile */
   .pri-nav{display:none}
   /* stats 2-col */
@@ -973,10 +994,10 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
 
 <div id="app" style="display:none">
   <header class="topbar">
-    <div class="topbar-r" style="margin-right:auto;margin-left:0">
-      <div class="pill" id="acctPill" onclick="OM('acctMov')" role="button" tabindex="0" title="Account"><svg class="icon" aria-hidden="true"><use href="#i-flame"/></svg> <span id="acctEmailEl">Account</span></div>
+    <div class="topbar-l">
+      <div class="pill pill-acct" id="acctPill" onclick="OM('acctMov')" role="button" tabindex="0" title="Account"><svg class="icon" aria-hidden="true"><use href="#i-flame"/></svg> <span id="acctEmailEl" class="acct-email-txt">Account</span></div>
     </div>
-    <div><div class="logo">Heartworth<em>focus · flow · flourish</em></div></div>
+    <div class="topbar-logo"><div class="logo">Heartworth<em>focus · flow · flourish</em></div></div>
     <div class="topbar-r">
       <span class="clock" id="clockEl" aria-live="off"></span>
       <div class="pill" id="streakPill" onclick="OM('statsMov')" role="button" tabindex="0" aria-label="View stats"><svg class="icon" aria-hidden="true"><use href="#i-flame"/></svg> <span id="streakEl">0</span>d</div>
@@ -984,6 +1005,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-hei
       <button class="icon-btn-round" id="themeBtn" aria-label="Toggle dark mode" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg></button>
     </div>
   </header>
+
 
   <div class="stats">
     <div class="sc"><div class="sv ca" id="sS">0</div><div class="sl">Sessions</div></div>
