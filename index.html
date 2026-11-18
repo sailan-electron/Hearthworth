@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#0f4a3c">
 <title>Fasal 360</title>
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#eef3e8;--card:#fff;--ink:#16261c;--mute:#5d6e62;--line:#dbe4d3;--green:#1f4d2e;--leaf:#4f9a3a;--sun:#e9a41a;--sunbg:#fdf1d3;--warn:#b3261e;--warnbg:#fde7e4;--water:#2c7fb8;--waterbg:#e1f0f9;
@@ -497,6 +498,8 @@ $("#tnext").onclick=function(){if(steps[ti].k){var k=$("#tkey").value.trim();if(
 $("#tback").onclick=function(){if(ti>0){ti--;renderTour()}};$("#tskip").onclick=endTour;
 /* start */
 (async function(){try{if(sb){var r=await sb.auth.getSession();if(r.data&&r.data.session)enter(r.data.session.user);sb.auth.onAuthStateChange(function(ev){if(ev==="SIGNED_OUT"&&user){user=null;$("#auth").hidden=false}})}}catch(e){}})();
+</script>
+<script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
 </script>
 </body>
 </html>
